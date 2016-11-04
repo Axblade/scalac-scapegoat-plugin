@@ -8,6 +8,8 @@ organization := "com.sksamuel.scapegoat"
 
 scalaVersion := "2.11.7"
 
+crossScalaVersions := Seq("2.12.0")
+
 scalacOptions := Seq("-unchecked", "-deprecation", "-feature", "-encoding", "utf8", "-Xmax-classfile-name", "254")
 
 publishMavenStyle := true
@@ -39,24 +41,39 @@ scalacOptions ++= Seq(
   //"-Ywarn-value-discard"
 )
   
-javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 libraryDependencies ++= Seq(
   "org.scala-lang"                  %     "scala-reflect"         % scalaVersion.value,
   "org.scala-lang"                  %     "scala-compiler"        % scalaVersion.value      % "provided",
-  "org.scala-lang.modules"          %     "scala-xml_2.11"        % "1.0.2",
   "org.scala-lang"                  %     "scala-compiler"        % scalaVersion.value      % "test",
   "commons-io"                      %     "commons-io"            % "2.4"         % "test",
-  "org.scalatest"                   %%    "scalatest"             % "2.2.4"       % "test",
-  "com.typesafe.scala-logging"      %%    "scala-logging-slf4j"   % "2.1.2"       % "test",
+  "com.typesafe.scala-logging"      %%    "scala-logging"         % "3.5.0"       % "test",
   "org.mockito"                     %     "mockito-all"           % "1.9.5"       % "test",
   "joda-time"                       %     "joda-time"             % "2.3"         % "test",
   "org.joda"                        %     "joda-convert"          % "1.3.1"       % "test",
-  "org.slf4j"                       %     "slf4j-api"             % "1.7.7"       % "test",
-  "org.scala-lang.modules"          %%    "scala-async"           % "0.9.2"       % "test",
-  "com.typesafe.akka"               %%    "akka-actor"            % "2.3.4"       % "test",
-  "org.scaldi"                      %%    "scaldi"                % "0.4"         % "test"
+  "org.slf4j"                       %     "slf4j-api"             % "1.7.7"       % "test"
 )
+
+libraryDependencies ++= {
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, scalaMajor)) if scalaMajor >= 12 =>
+      Seq(
+        "org.scala-lang.modules"  %%  "scala-xml"          % "1.0.5",
+        "org.scalatest"           %%  "scalatest"          % "3.0.0"     % "test",
+//        "org.scala-lang.modules"  %   "scala-async_2.12"   % "0.9.6-RC5" % "test",
+        "com.typesafe.akka"       %%  "akka-actor"         % "2.4.12"    % "test"
+      )
+    case _ =>
+      Seq(
+        "org.scala-lang.modules"  %%    "scala-xml"             % "1.0.5",
+        "org.scalatest"           %%    "scalatest"             % "3.0.0"     % "test",
+        "org.scala-lang.modules"  %%    "scala-async"           % "0.9.5"     % "test",
+        "com.typesafe.akka"       %%    "akka-actor"            % "2.4.12"    % "test",
+        "org.scaldi"              %%    "scaldi"                % "0.4"       % "test"
+      )
+  }
+}
 
 sbtrelease.ReleasePlugin.autoImport.releasePublishArtifactsAction := PgpKeys.publishSigned.value
 
