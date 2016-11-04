@@ -8,7 +8,7 @@ organization := "com.sksamuel.scapegoat"
 
 scalaVersion := "2.11.7"
 
-crossScalaVersions := Seq("2.12.0")
+crossScalaVersions := Seq("2.11.7", "2.12.0")
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-feature", "-encoding", "utf8", "-Xmax-classfile-name", "254")
 

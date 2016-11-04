@@ -7,11 +7,10 @@ import scala.tools.nsc.reporters.ConsoleReporter
 
 /**
  * @author Stephen Samuel
- * @author Eugene Sypachev (Axblade)
  */
 trait PluginRunner {
 
-  val scalaVersion = "2.11.7"
+  val scalaVersion = "2.12.0"
   val shortScalaVersion = scalaVersion.dropRight(2)
 
   val classPath = getScalaJars.map(_.getAbsolutePath) :+ sbtCompileDir.getAbsolutePath
@@ -111,16 +110,16 @@ class ScapegoatCompiler(settings: scala.tools.nsc.Settings,
       explicitOuter -> "this refs to outer pointers, translate patterns",
       erasure -> "erase types, add interfaces for traits",
       postErasure -> "clean up erased inline classes",
-      lazyVals -> "allocate bitmaps, translate lazy vals into lazified defs",
+      //      lazyVals -> "allocate bitmaps, translate lazy vals into lazified defs",
       lambdaLift -> "move nested functions to top level",
       constructors -> "move field definitions into constructors",
       mixer -> "mixin composition",
       cleanup -> "platform-specific cleanups, generate reflective calls",
-      genicode -> "generate portable intermediate code",
-      inliner -> "optimization: do inlining",
-      inlineExceptionHandlers -> "optimization: inline exception handlers",
-      closureElimination -> "optimization: eliminate uncalled closures",
-      deadCode -> "optimization: eliminate dead code",
+      //      genicode -> "generate portable intermediate code",
+      //      inliner -> "optimization: do inlining",
+      //      inlineExceptionHandlers -> "optimization: inline exception handlers",
+      //      closureElimination -> "optimization: eliminate uncalled closures",
+      //      deadCode -> "optimization: eliminate dead code",
       terminal -> "The last phase in the compiler chain")
     phs foreach (addToPhasesSet _).tupled
   }
